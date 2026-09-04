@@ -1,0 +1,20 @@
+# Git Ignore Rules for Linux Notes Repository
+
+# Personal logs & tracking
+work-log.md
+work-log*.md
+*.log
+*.tmp
+scratch/
+
+# OS-specific files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# IDE and Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
