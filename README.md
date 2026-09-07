@@ -21,7 +21,7 @@ Whether you are preparing for certifications (RHCSA, LFCS), shifting into DevOps
 | **03** | [Package Management](level-03-package-management.md) | APT, DNF/YUM, repositories, dependencies, package pinning | **Available** |
 | **04** | [Processes & System Monitoring](level-04-processes-monitoring.md) | ps, top, htop, signals, kill, /proc, load analysis, background jobs | **Available** |
 | **05** | [Services & systemd](level-05-services-systemd.md) | systemctl, journalctl, custom service units, timers, boot targets | **Available** |
-| **06** | Storage & Filesystems | Disks, partitions, fdisk/parted, LVM, mkfs, /etc/fstab, RAID | *In Progress* |
+| **06** | [Storage & Filesystems](level-06-storage-filesystems.md) | Disks, partitions, fdisk/parted, LVM, mkfs, /etc/fstab, RAID | **Available** |
 | **07** | Networking & Connectivity | IP assignment, routing, netplan, nmcli, ss, curl, dig, troubleshooting | *Upcoming* |
 | **08** | SSH & Remote Administration | SSH keys, config optimization, SCP, rsync, tunneling, hardening | *Upcoming* |
 | **09** | Shell Scripting & Automation | Bash scripting, variables, logic, loops, error handling, cron jobs | *Upcoming* |
