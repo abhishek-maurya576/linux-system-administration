@@ -657,14 +657,16 @@ tail -f /var/log/syslog
 ```
 **`-f` (follow):** Continuously watches the file for new lines. **This is one of the most important admin commands.** It lets you watch logs in real-time.
 
-**💡 Admin Tip:** When troubleshooting a service:
+**💡 Admin Tip:** When troubleshooting, open two terminal windows:
 ```bash
-# Terminal 1: Watch the log
-tail -f /var/log/nginx/error.log
+# Terminal 1: Watch the system log in real-time
+tail -f /var/log/syslog
 
-# Terminal 2: Restart the service and watch errors appear
-sudo systemctl restart nginx
+# Terminal 2: Do something (e.g., plug in a USB, connect to WiFi)
+# Watch new log entries appear in Terminal 1
 ```
+
+> **Preview:** In production, admins watch specific service logs like `/var/log/nginx/error.log` and restart services using `systemctl` — you'll learn these commands in Level 05.
 
 Press `Ctrl + C` to stop `tail -f`.
 
@@ -950,6 +952,7 @@ sort access.log | uniq
 ```bash
 cat access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -10
 ```
+> **Note:** `awk '{print $1}'` extracts the first column (space-separated) from each line. `awk` is a powerful text-processing tool — think of it as a programmable `cut`. You'll use it more in Level 09 (Shell Scripting). For now, just know `awk '{print $N}'` prints column N.
 
 ---
 
@@ -1098,6 +1101,7 @@ find /tmp -name "*.log" | xargs rm
 
 ```bash
 # Find and compress old logs
+# gzip compresses files to save disk space (adds .gz extension)
 find /var/log -name "*.log" -mtime +30 | xargs gzip
 
 # Find and count lines in all Python files
@@ -1331,21 +1335,22 @@ du -a /etc 2>/dev/null | sort -rn | head -5
 **Diagnosis steps:**
 ```bash
 # Check if the command exists
-which nginx
-type nginx
+which htop
+type htop
 
 # Check if the package is installed (Ubuntu)
-dpkg -l | grep nginx
+# dpkg lists installed packages — covered in detail in Level 03 (Package Management)
+dpkg -l | grep htop
 
 # Check if it's in your PATH
 echo $PATH
 ```
 
 **Common causes:**
-1. The program isn't installed → install it
+1. The program isn't installed → install it (you'll learn how in Level 03)
 2. You made a typo
 3. The command is in a directory not in your `$PATH`
-4. You need to use the full path: `/usr/sbin/nginx`
+4. You need to use the full path: `/usr/sbin/htop`
 
 ### Exercise 2: "Permission Denied"
 
@@ -1355,11 +1360,16 @@ echo $PATH
 cat /etc/shadow    # Permission denied!
 ```
 
+**What's happening?** Some files are restricted to the **root** (administrator) user. Your regular user account cannot read them.
+
 **Solution:**
 ```bash
-ls -la /etc/shadow     # Check permissions
-sudo cat /etc/shadow   # Use sudo for admin access
+ls -la /etc/shadow     # Check permissions — notice only root has access
+sudo cat /etc/shadow   # Use sudo to run this command as root (admin)
 ```
+
+> **📌 Preview — What is `sudo`?**
+> `sudo` stands for "**S**uper **U**ser **DO**". It temporarily runs a single command with administrator (root) privileges. You'll be asked for your password. Think of it as "Run as Administrator" on Windows. You'll learn `sudo` in full detail in Level 02 (Users, Groups & Permissions).
 
 ### Exercise 3: "No Such File or Directory"
 
@@ -1481,9 +1491,11 @@ Complete these tasks on your own to reinforce what you've learned:
    Do this using only redirection (`>` and `>>`), not a text editor.
 
 5. **Pipeline challenge:** Using a single pipeline, find all lines in `/etc/passwd` that contain `/bin/bash`, extract just the usernames (first field), sort them, and count how many there are.
+   Hint: Use `grep`, `cut -d ":" -f 1`, `sort`, and `wc -l` — all tools you learned in this level.
 
 6. **History:** Find the 5 most frequently used commands in your bash history.
    Hint: `history | awk '{print $2}' | sort | uniq -c | sort -rn | head -5`
+   > `awk '{print $2}'` extracts the 2nd column (the command name) from each history line. `awk` is covered in Level 09, but this one-liner pattern is useful to know early.
 
 ---
 
@@ -1547,7 +1559,7 @@ Complete these tasks on your own to reinforce what you've learned:
 | Using `cat` on huge files | Use `less` instead |
 | Case sensitivity errors | Linux cares: `File.txt` ≠ `file.txt` |
 | Spaces in filenames causing issues | Quote them: `"my file.txt"` or escape: `my\ file.txt` |
-| Forgetting `sudo` for admin operations | Check the error — "Permission denied" means try `sudo` |
+| "Permission denied" on system files | Use `sudo` to run the command as admin (covered in Level 02) |
 
 ### Administrator-Level Knowledge
 
